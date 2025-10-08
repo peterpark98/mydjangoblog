@@ -12,7 +12,7 @@ To set up this project locally, run the following commands in your terminal:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/mydjangoblog.git
+git clone https://github.com/peterpark98/mydjangoblog.git
 cd mydjangoblog
 
 # Create and activate virtual environment
