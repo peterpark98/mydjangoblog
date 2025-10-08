@@ -1,0 +1,74 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}个人中心{% endblock %}
+
+{% block content %}
+<div class="card fade-in-up">
+    <div class="card-body">
+        <div id="profile-display-view">
+            <div class="text-center mb-4">
+                <img src="{{ user.profile.image.url }}" alt="{{ user.username }}" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                <h3 class="card-title">{{ user.profile.nickname|default:user.username }}</h3>
+                <p class="text-muted">{{ user.email }}</p>
+            </div>
+            <hr style="border-color: var(--border-color);">
+            <div class="px-3">
+                <p><strong>用户名:</strong> {{ user.username }}</p>
+                <p><strong>个人简介:</strong> {{ user.profile.bio|default:"暂无简介" }}</p>
+            </div>
+            <div class="text-end mt-4">
+                <button id="edit-profile-btn" class="btn btn-custom">
+                    <i class="fas fa-edit me-2"></i>编辑资料
+                </button>
+            </div>
+        </div>
+
+        <div id="profile-edit-view" style="display: none;">
+            <h3 class="card-title text-center mb-4">编辑个人资料</h3>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="text-center mb-4">
+                    <img id="image-preview" src="{{ user.profile.image.url }}" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover; cursor: pointer;" onclick="document.getElementById('id_image').click();">
+                </div>
+                
+                {{ u_form.as_p }}
+                {{ p_form.as_p }}
+
+                <input type="hidden" name="x" id="id_x">
+                <input type="hidden" name="y" id="id_y">
+                <input type="hidden" name="width" id="id_width">
+                <input type="hidden" name="height" id="id_height">
+
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="button" id="cancel-edit-btn" class="btn btn-secondary-custom me-2">取消</button>
+                    <button type="submit" class="btn btn-custom">保存修改</button>
+                </div>
+            </form>
+            <div class="text-center mt-3">
+                <a href="{% url 'accounts:change_password' %}" class="btn btn-secondary-custom mt-2">修改密码</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cropImageModal" tabindex="-1" aria-labelledby="cropImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color: var(--card-bg); border-color: var(--border-color);">
+            <div class="modal-header" style="border-bottom-color: var(--border-color);">
+                <h5 class="modal-title" id="cropImageModalLabel">裁剪头像</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <img id="imageToCrop" src="" style="max-width: 100%;">
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top-color: var(--border-color);">
+                <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-custom" id="crop-button">确认裁剪</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

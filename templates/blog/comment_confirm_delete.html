@@ -1,0 +1,20 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+    <div class="card p-4 shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title">确认删除</h2>
+            <p>您确定要删除您的这条评论吗?</p>
+            <blockquote class="blockquote my-3">
+                <p>"{{ comment.content|truncatewords:30 }}"</p>
+            </blockquote>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <button class="btn btn-danger" type="submit">确认删除</button>
+                    <a class="btn btn-outline-secondary" href="{{ comment.post.get_absolute_url }}">取消</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

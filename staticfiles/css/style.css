@@ -1,0 +1,243 @@
+/* static/css/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+:root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #f5f5f5;
+    --text-muted: #c0c0c0;
+    --accent-color: #00f5c3;
+    --accent-glow: 0 0 15px rgba(0, 245, 195, 0.5);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+}
+
+body.light-mode {
+    --bg-color: #f4f6f9;
+    --card-bg: #ffffff;
+    --text-color: #212529;
+    --text-muted: #6c757d;
+    --accent-color: #007bff;
+    --accent-glow: 0 0 15px rgba(0, 123, 255, 0.4);
+    --border-color: #dee2e6;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+body { background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; }
+h1, h2, h3, h4, h5, h6 { color: var(--text-color) !important; }
+a { color: var(--text-muted); text-decoration: none; transition: color 0.3s ease; }
+a:hover { color: var(--accent-color); }
+.navbar-nav .nav-link { font-weight: 500; color: var(--text-muted); transition: color 0.3s ease; }
+.navbar-nav .nav-link:hover, .navbar-nav .nav-link.active { color: var(--text-color); }
+.navbar { background: color-mix(in srgb, var(--card-bg) 70%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); }
+.card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--border-radius); margin-bottom: 2rem; position: relative; overflow: hidden; transition: all 0.3s ease; opacity: 0; transform: translateY(30px); }
+.home-page .card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px var(--shadow-color), 0 0 20px var(--accent-color); }
+.home-page .card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent-color) 50%, transparent), transparent); transition: left 0.8s ease; }
+.home-page .card:hover::before { left: 100%; }
+.post-card .card-img-top { height: 240px; object-fit: cover; }
+.post-card .card-title a { color: var(--text-color) !important; text-decoration: none; font-weight: 500; }
+.post-card .card-title a:hover { color: var(--accent-color); text-shadow: var(--accent-glow); }
+.post-meta, .post-meta a { font-size: 0.85rem; color: var(--text-muted) !important; }
+.post-meta a:hover { color: var(--accent-color) !important; }
+.card-body .card-text { color: var(--text-muted); }
+.post-full-content header h1 { font-size: 2.5rem; font-weight: 700; color: var(--text-color) !important; }
+.post-full-content header .text-muted, .post-full-content header .text-muted a { color: var(--text-muted) !important; }
+.sidebar-card .card-title { color: var(--text-color) !important; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent-color); margin-bottom: 1rem !important; display: inline-block; font-size: 1.1rem; font-weight: 600; }
+.sidebar-card a.list-group-item { background: transparent; border-color: var(--border-color); color: var(--text-muted); transition: color 0.3s ease, background-color 0.3s ease; }
+.sidebar-card a.list-group-item:hover { color: var(--accent-color); background-color: color-mix(in srgb, var(--accent-color) 5%, transparent); }
+.sidebar-card .badge { background-color: color-mix(in srgb, var(--text-color) 10%, transparent); color: var(--text-muted); }
+.form-control, .form-select { background-color: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color); }
+.form-control:focus, .form-select:focus { background-color: var(--bg-color); color: var(--text-color); border-color: var(--accent-color); box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent-color) 25%, transparent); }
+.form-label { color: var(--text-muted); }
+.fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+.theme-switch { cursor: pointer; font-size: 1.2rem; color: var(--text-muted); }
+.text-center .h3, .text-center .text-muted { color: var(--text-color) !important; }
+
+/* 评论区颜色修复 */
+.card-body .d-flex .fw-bold, .card-body .d-flex p { color: var(--text-color) !important; }
+.card-body .d-flex .text-muted { color: var(--text-muted) !important; }
+.form-control::placeholder { color: var(--text-muted) !important; opacity: 0.7 !important; }
+
+/* 文章详情页内容排版 */
+.content-body { font-size: 1.1rem; line-height: 1.8; color: var(--text-color); }
+.content-body p, .content-body ul, .content-body ol, .content-body table, .content-body blockquote, .content-body pre { margin-bottom: 1.5rem; }
+.content-body h1, .content-body h2, .content-body h3, .content-body h4 { margin-top: 2.5rem; margin-bottom: 1.2rem; font-weight: 600; }
+.content-body a { color: var(--accent-color) !important; text-decoration: underline !important; }
+.content-body blockquote { border-left: 4px solid var(--accent-color); padding-left: 1rem; font-style: italic; color: var(--text-muted); }
+
+/* 代码块样式 - Prism.js */
+.content-body pre[class*="language-"] {
+    border: 1px solid var(--border-color) !important;
+    border-radius: 8px;
+    background: #2d2d2d !important;
+}
+body.light-mode .content-body pre[class*="language-"] {
+    background: #f5f2f0 !important;
+}
+
+/* 表格样式 */
+.content-body table { width: 100%; border-collapse: collapse; background-color: var(--card-bg) !important; color: var(--text-color) !important; }
+.content-body table, .content-body th, .content-body td { border: 1px solid var(--border-color); }
+.content-body th, .content-body td { padding: 0.75rem; text-align: left; background-color: transparent !important; }
+.content-body th { background-color: color-mix(in srgb, var(--text-color) 5%, transparent) !important; font-weight: 600; }
+
+/* =================================== */
+/* 暗黑模式样式修复            */
+/* =================================== */
+
+.navbar-brand { color: var(--text-color); }
+.navbar-brand:hover { color: var(--accent-color); }
+.card-body { color: var(--text-color); }
+.sidebar-card .list-group-item { background: transparent; border-color: var(--border-color); color: var(--text-muted); }
+
+/* =================================== */
+/* 修复暗黑模式下汉堡菜单按钮颜色      */
+/* =================================== */
+
+.navbar-toggler { border-color: rgba(255, 255, 255, 0.15); }
+.navbar-toggler-icon { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.7)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+body.light-mode .navbar-toggler-icon { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.55)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+
+/* =================================== */
+/* 用户下拉菜单动画、颜色与样式 (Animation 最终修复) */
+/* =================================== */
+
+/* 1. 定义动画 */
+@keyframes slideFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 2. 应用动画 */
+.animated-dropdown.show {
+    animation: slideFadeIn 0.2s ease-out forwards;
+}
+
+
+/* 3. 颜色与样式 (保持不变) */
+.dropdown-menu {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 0.5rem 0;
+}
+
+.dropdown-item {
+    color: var(--text-muted);
+    padding: 0.5rem 1rem;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    color: var(--text-color);
+    background-color: rgba(0, 245, 195, 0.1); 
+}
+
+.dropdown-divider {
+    border-top: 1px solid var(--border-color);
+}
+
+/* 亮色模式样式 */
+body.light-mode .dropdown-menu {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    box-shadow: 0 0.5rem 1rem var(--shadow-color);
+}
+
+body.light-mode .dropdown-item {
+    color: var(--text-color);
+}
+
+body.light-mode .dropdown-item:hover, body.light-mode .dropdown-item:focus {
+    color: var(--text-color);
+    background-color: #f8f9fa;
+}
+
+body.light-mode .dropdown-divider {
+    border-top: 1px solid var(--border-color);
+}
+
+/* =================================== */
+/* 美化个人中心的头像上传按钮          */
+/* =================================== */
+
+/* 隐藏原始的 input[type=file] 按钮 */
+#profile-edit-view input[type="file"] {
+    display: none;
+}
+
+/* =================================== */
+/* 修复暗黑模式下日期选择器图标颜色    */
+/* =================================== */
+
+/* 默认 (暗黑模式) 下，反转图标颜色，黑变白 */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+/* 在亮色模式下，取消反转，恢复默认的黑色图标 */
+body.light-mode input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: none;
+}
+
+/* =================================== */
+/* 修复暗黑模式下 .text-muted 颜色问题 */
+/* =================================== */
+
+/* 强制 .text-muted 元素使用我们主题中定义的颜色 */
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* =================================== */
+/* EasyMDE Dark Mode Theme             */
+/* =================================== */
+
+/* 这段代码只在 body 标签没有 .light-mode 类时生效 (即黑夜模式) */
+body:not(.light-mode) .EasyMDEContainer .CodeMirror {
+    background-color: var(--card-bg); /* 编辑区背景 */
+    color: var(--text-color); /* 编辑区文字颜色 */
+    border-color: var(--border-color);
+}
+
+body:not(.light-mode) .editor-toolbar {
+    background-color: #2a2a2e; /* 工具栏背景，用一个比卡片稍亮的颜色 */
+    border-top: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid #3a3a3e; /* 工具栏和编辑区的分隔线 */
+}
+
+body:not(.light-mode) .editor-toolbar a {
+    color: var(--text-muted) !important; /* 工具栏图标颜色 */
+}
+
+body:not(.light-mode) .editor-toolbar a:hover,
+body:not(.light-mode) .editor-toolbar a.active {
+    background: var(--bg-color); /* 鼠标悬浮/激活的图标背景 */
+    border-color: var(--border-color);
+    color: var(--text-color) !important; /* 鼠标悬浮/激活的图标颜色 */
+}
+
+body:not(.light-mode) .editor-statusbar {
+    color: var(--text-muted); /* 底部状态栏文字颜色 */
+}
+
+/* 让光标在暗色背景下可见 */
+body:not(.light-mode) .EasyMDEContainer .CodeMirror-cursor {
+    border-left: 1px solid var(--text-color) !important;
+}
+
+/* 修复分屏预览模式下的背景色 */
+body:not(.light-mode) .editor-preview-side {
+    background: var(--bg-color);
+    border-color: var(--border-color);
+}

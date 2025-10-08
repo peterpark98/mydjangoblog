@@ -1,0 +1,28 @@
+<div class="card sidebar-card">
+    <div class="card-body">
+        <h5 class="card-title mb-3">分类</h5>
+        <div class="list-group list-group-flush">
+            {% for category in categories %}
+            <a href="{% url 'blog:category_posts' category.slug %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                {{ category.name }}
+                <span class="badge rounded-pill">{{ category.post_count }}</span>
+            </a>
+            {% empty %}
+            <div class="list-group-item">暂无分类</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="card sidebar-card">
+    <div class="card-body">
+        <h5 class="card-title mb-3">热门文章</h5>
+        <div class="list-group list-group-flush">
+            {% for post in popular_posts %}
+            <a href="{{ post.get_absolute_url }}" class="list-group-item list-group-item-action">{{ post.title }}</a>
+            {% empty %}
+            <div class="list-group-item">暂无热门文章</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

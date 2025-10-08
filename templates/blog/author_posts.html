@@ -1,0 +1,43 @@
+{% extends "base/base.html" %}
+
+{% block body_class %}home-page{% endblock %}
+
+{% block content %}
+    <h3 class="mb-4">作者 “{{ author.username }}” 的文章</h3>
+    <p class="text-muted">
+            共发布了 {{ author.blog_posts.count }} 篇文章。
+    </p>
+    {% for post in posts %}
+    <div class="card post-card">
+        {% if post.image %}
+            <a href="{{ post.get_absolute_url }}">
+                <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+            </a>
+        {% endif %}
+        <div class="card-body">
+            <h2 class="card-title h4"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+            <p class="post-meta"><i class="far fa-calendar-alt me-2"></i>{{ post.publish|date:"Y-m-d" }}</p>
+            <p class="card-text">{{ post.content|striptags|truncatechars:120 }}</p>
+        </div>
+    </div>
+    {% empty %}
+        <div class="card">
+            <div class="card-body">这位作者还没有发布任何文章。</div>
+        </div>
+    {% endfor %}
+
+    {% if is_paginated %}
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">上一页</a></li>
+            {% endif %}
+            <li class="page-item disabled"><span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span></li>
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">下一页</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base/base.html" %}
+
+{% block body_class %}home-page{% endblock %}
+
+{% block content %}
+    {% for post in posts %}
+    <div class="card post-card">
+        {% if post.image %}
+        <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+        {% endif %}
+        <div class="card-body">
+            <h2 class="card-title h4"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+            <p class="post-meta"><i class="far fa-calendar-alt me-2"></i>{{ post.publish|date:"Y-m-d" }}</p>
+            <p class="card-text">{{ post.content|striptags|truncatechars:120 }}</p>
+        </div>
+    </div>
+    {% empty %}
+    <div class="card">
+        <div class="card-body">这里还没有任何文章。</div>
+    </div>
+    {% endfor %}
+{% endblock %}

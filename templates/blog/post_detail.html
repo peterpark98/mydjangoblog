@@ -1,0 +1,93 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content_area %}
+<div class="col-12 col-lg-8 post-full-content">
+    <div class="card fade-in-up">
+        <header class="card-header text-center bg-transparent border-0 pt-4">
+            <h1 class="mb-3 h2">{{ post.title }}</h1>
+            <p class="text-muted small">
+                作者：<a href="{% url 'blog:author_posts' post.author.username %}">{{ post.author.profile.nickname|default:post.author.username }}</a> •
+                发布于 {{ post.publish|date:"Y-m-d" }} •
+                分类：<a href="{% url 'blog:category_posts' post.category.slug }}">{{ post.category }}</a> •
+                阅读量: {{ post.views }}
+            </p>
+        </header>
+
+        {% if post.image %}
+            <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" style="max-height: 450px; object-fit: cover;">
+        {% endif %}
+
+        <div class="card-body p-4 p-md-5 content-body">
+            {{ post.content|safe }}
+        </div>
+
+        {% if user.is_authenticated and user == post.author %}
+        <div class="card-footer bg-transparent text-end border-0 pb-4">
+            <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-sm btn-outline-primary">编辑</a>
+            <a href="{% url 'blog:post_delete' post.pk %}" class="btn btn-sm btn-outline-danger">删除</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="comments-section mt-5 card fade-in-up">
+        <div class="card-body">
+            <h4 class="mb-4" id="comments-title">{{ comments.paginator.count }} 条评论</h4>
+
+            <div id="comment-list">
+                {% for comment in comments %}
+                    {% include 'blog/partials/comment.html' with comment=comment %}
+                {% endfor %}
+            </div>
+
+            <div class="card mt-4" id="main-comment-form-container">
+                <div class="card-body">
+                    <h5 class="card-title" id="comment-form-title">发表评论</h5>
+                    
+                    <form id="commentForm" method="post" class="mt-4 prevent-double-submit">
+                        {% csrf_token %}
+                        <input type="hidden" name="parent_id" id="parentId">
+                        <div class="mb-3">
+                            {{ comment_form.content }}
+                        </div>
+                        <button type="submit" class="btn btn-primary submit-btn">提交评论</button>
+                    </form>
+                    
+                </div>
+            </div>
+
+            {% if comments.paginator.num_pages > 1 %}
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if comments.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ comments.previous_page_number }}#comments">上一页</a></li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">上一页</span></li>
+                    {% endif %}
+                    {% for i in comments.paginator.page_range %}
+                        {% if comments.number == i %}
+                            <li class="page-item active" aria-current="page"><span class="page-link">{{ i }}</span></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ i }}#comments">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if comments.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ comments.next_page_number }}#comments">下一页</a></li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">下一页</span></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-4 d-none d-lg-block">
+    {% include 'partials/right_sidebar.html' %}
+</div>
+{% endblock %}

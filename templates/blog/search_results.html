@@ -1,0 +1,29 @@
+{% extends "base/base.html" %}
+
+{% block body_class %}home-page{% endblock %}
+
+{% block content %}
+    <div class="text-center mb-5">
+        <h1 class="h3">搜索结果</h1>
+        {% if query %}
+            <p class="text-muted">关于 “{{ query }}” 的 {{ results.count }} 条结果</p>
+        {% endif %}
+    </div>
+
+    {% for post in results %}
+    <div class="card post-card">
+        {% if post.image %}
+        <a href="{{ post.get_absolute_url }}">
+            <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+        </a>
+        {% endif %}
+        <div class="card-body">
+            <h2 class="card-title h4"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+            <p class="post-meta">{{ post.publish|date:"Y-m-d" }}</p>
+            <p class="card-text">{{ post.content|striptags|truncatechars:100 }}</p>
+        </div>
+    </div>
+    {% empty %}
+        <p>没有找到与 “{{ query }}” 相关的文章。</p>
+    {% endfor %}
+{% endblock %}

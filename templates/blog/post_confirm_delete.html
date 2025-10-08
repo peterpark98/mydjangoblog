@@ -1,0 +1,16 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body p-5">
+        <h3 class="text-center mb-4">确认删除</h3>
+        <p class="text-center">你确定要删除文章 “<strong>{{ object.title }}</strong>” 吗？</p>
+        <p class="text-center text-muted small">这个操作无法撤销。</p>
+        <form method="post" class="text-center mt-4">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">确认删除</button>
+            <a href="{{ object.get_absolute_url }}" class="btn btn-outline-secondary">取消</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

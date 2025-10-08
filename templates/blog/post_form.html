@@ -1,0 +1,42 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block prism_assets %}{% endblock %}
+{% block prism_js %}{% endblock %}
+
+{% block title %}{{ view.title }}{% endblock %}
+
+{% block content %}
+<div class="card fade-in-up">
+    <div class="card-body">
+        <h2 class="card-title text-center mb-4">{{ view.title }}</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div class="mb-4">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger mt-2">{{ error }}</div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <div class="d-flex justify-content-end gap-2">
+                <a href="{% url 'home' %}" class="btn btn-secondary-custom me-2">取消</a>
+                <button type="submit" name="save_draft" value="1" class="btn btn-secondary">保存为草稿</button>
+                <button type="submit" name="publish" value="1" class="btn btn-primary">
+                    {% if form.instance.status == 'draft' %}
+                        发布文章
+                    {% else %}
+                        {% if form.instance.pk %}更新文章{% else %}发布文章{% endif %}
+                    {% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

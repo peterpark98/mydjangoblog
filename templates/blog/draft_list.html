@@ -1,0 +1,42 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<h3 class="mb-4">我的草稿</h3>
+
+{% for post in drafts %}
+<div class="card post-card mb-4">
+    <div class="card-body">
+        <h2 class="card-title h4"><a href="{% url 'blog:post_update' post.pk %}">{{ post.title }}</a></h2>
+        <p class="post-meta">最后更新于: {{ post.updated|date:"Y-m-d H:i" }}</p>
+        <p class="card-text">{{ post.content|striptags|truncatechars:100 }}</p>
+        <div class="d-flex gap-2">
+            <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-primary btn-sm">编辑草稿</a>
+            {# 新增的删除按钮，指向 PostDeleteView #}
+            <a href="{% url 'blog:post_delete' post.pk %}" class="btn btn-danger btn-sm">删除</a>
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="card">
+    <div class="card-body">
+        <p>您还没有任何草稿。</p>
+    </div>
+</div>
+{% endfor %}
+
+{# 分页逻辑 (与 post_list.html 相同) #}
+{% if is_paginated %}
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">上一页</a></li>
+        {% endif %}
+        <li class="page-item disabled"><span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span></li>
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">下一页</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+{% endblock %}

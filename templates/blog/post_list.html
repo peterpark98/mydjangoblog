@@ -1,0 +1,46 @@
+{% extends "base/base.html" %}
+
+{% block body_class %}home-page{% endblock %}
+
+{% block content %}
+<h3 class="mb-4">
+    {% if category %}{{ category.name }}{% elif author %}{{ author.username }} 的文章{% else %}所有文章{% endif %}
+</h3>
+
+{% for post in posts %}
+<div class="card post-card">
+    {% if post.image %}
+    <a href="{{ post.get_absolute_url }}">
+        {# 这里是关键修复：为 <img> 标签添加了 "card-img-top" 类 #}
+        <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+    </a>
+    {% endif %}
+    <div class="card-body">
+        <h2 class="card-title h4"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+        <p class="post-meta">{{ post.publish|date:"Y-m-d" }}</p>
+        {# 同时为您加上了文章摘要，与首页保持一致 #}
+        <p class="card-text">{{ post.content|striptags|truncatechars:100 }}</p>
+    </div>
+</div>
+{% empty %}
+<div class="card">
+    <div class="card-body">
+        <p>这里还没有任何文章。</p>
+    </div>
+</div>
+{% endfor %}
+
+{% if is_paginated %}
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">上一页</a></li>
+        {% endif %}
+        <li class="page-item disabled"><span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span></li>
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">下一页</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}
